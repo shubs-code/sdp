@@ -1,0 +1,72 @@
+#Practical Lab 11 Adapter Pattern
+Implement an Adapter to make an old LegacyLogger (with a method logMessage(String)) work with a modern Logger interface (with log(Level, String)).
+
+%%writefile LoggerAdapterDemo.java
+
+import java.util.logging.Level;
+
+public class LoggerAdapterDemo {
+    // Adaptee (LegacyLogger)
+    static class LegacyLogger {
+        static void logMessage(String msg) {
+            System.out.println("Legacy Log: " + msg);
+        }
+    }
+
+    // Target Interface (Logger)
+    interface Logger {
+        void log(Level level, String message);
+    }
+
+    // Adapter Class
+    static class LoggerAdapter implements Logger {
+        @Override
+        public void log(Level level, String message) {
+            LegacyLogger.logMessage("[" + level + "] " + message);
+        }
+    }
+
+    // Main Method
+    public static void main(String[] args) {
+        Logger logger = new LoggerAdapter();
+        logger.log(Level.INFO, "This is an info message.");
+        logger.log(Level.SEVERE, "This is a severe error.");
+    }
+}
+
+
+!javac LoggerAdapterDemo.java
+!java LoggerAdapterDemo
+
+#You need to adapt a MicroUSB charger (Adaptee) to work with a USBTypeC device (Target). How would you model this with the Adapter pattern?
+
+%%writefile USBAdapterDemo.java
+
+public class USBAdapterDemo {
+    // Adaptee (MicroUSB Charger)
+    static class MicroUSBCharger {
+        static void connectWithMicroUSB() {
+            System.out.println("Connected using Micro USB Charger.");
+        }
+    }
+
+    // Target (USB Type-C Device)
+    interface USBTypeCDevice {
+        void connectWithUSBTypeC();
+    }
+
+    // Adapter
+    static class USBTypeCAdapter implements USBTypeCDevice {
+        @Override
+        public void connectWithUSBTypeC() {
+            System.out.println("Adapter converting MicroUSB to USB Type-C...");
+            MicroUSBCharger.connectWithMicroUSB();
+        }
+    }
+
+    // Main Method
+    public static void main(String[] args) {
+        USBTypeCDevice device = new USBTypeCAdapter();
+        device.connectWithUSBTypeC();
+    }
+}

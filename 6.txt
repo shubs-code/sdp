@@ -1,0 +1,132 @@
+Question 1: Fixing a Rectangle-Square Hierarchy
+Problem Statement:
+You are given a Rectangle class and a Square class that inherits
+from Rectangle. However, the Square class violates the Liskov
+Substitution Principle. Fix the implementation to adhere to LSP.
+python
+
+class Rectangle:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def set_width(self, width):
+        self.width = width
+
+    def set_height(self, height):
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+class Square:
+    def __init__(self, side):
+        self.side = side
+
+    def set_side(self, side):
+        self.side = side
+
+    def area(self):
+        return self.side * self.side
+
+
+
+
+Question 2: Fixing a Bird-Penguin Hierarchy
+Problem Statement:
+You are given a Bird class and a Penguin class that inherits from
+Bird. However, the Penguin class violates the Liskov Substitution
+Principle because penguins cannot fly. Fix the implementation to
+adhere to LSP.
+
+class Bird:
+    def move(self):
+        pass
+
+class FlyingBird(Bird):
+    def fly(self):
+        print("Flying in the sky")
+
+class Penguin(Bird):
+    def move(self):
+        print("Penguin waddles instead of flying")
+
+
+
+
+Question 3: Fixing a File Reader-Writer Hierarchy
+Problem Statement:
+You are given a FileReader class and a FileWriter class that
+inherits from FileReader. However, the FileWriter class violates
+the Liskov Substitution Principle because it cannot read files. Fix the
+implementation to adhere to LSP.
+
+class FileReader:
+    def __init__(self, filename):
+        self.filename = filename
+
+    def read(self):
+        with open(self.filename, 'r') as file:
+            return file.read()
+
+class FileWriter:
+    def __init__(self, filename):
+        self.filename = filename
+
+    def write(self, content):
+        with open(self.filename, 'w') as file:
+            file.write(content)
+
+
+
+
+
+
+from abc import ABC, abstractmethod
+
+
+class Shape(ABC):
+  @abstractmethod
+  def draw():
+    pass
+
+class Square(Shape):
+  def draw(self):
+    print("Drawing a square")
+
+class Circle(Shape):
+  def draw(self):
+    print("Drawing a circle")
+
+class Something(Shape):
+  def draw(self):
+    print("Drawing something")
+
+
+class ShapeFactory(ABC):
+  def get_shape(self) -> Shape:
+    pass
+
+
+class SquareFactory(ShapeFactory):
+  def get_shape(self) -> Shape:
+    return Square()
+
+class SomethingFactory(ShapeFactory):
+  def get_shape(self) -> Shape:
+    return Something()
+
+class CircleFactory(ShapeFactory):
+  def get_shape(self) -> Shape:
+    return Circle()
+
+what=input("Enter the shape you want: ")
+
+shapes={
+    "Circle": CircleFactory(),
+    "Square": SquareFactory(),
+    "Something": SomethingFactory()
+}
+
+required_shape=shapes[what].get_shape()
+required_shape.draw()

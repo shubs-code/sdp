@@ -1,0 +1,55 @@
+#Practical Lab 13 Bridge Pattern
+
+Let's create a payment gateway system where:
+Payment methods (abstraction): Credit Card, PayPal, Crypto
+Payment processors (implementation): Stripe, Square, PayPal API
+Problem Without Bridge If we mixed them directly, we'd need:
+CreditCardStripe, CreditCardSquare, CreditCardPayPalAPI
+PayPalStripe, PayPalSquare, PayPalPayPalAPI
+CryptoStripe, CryptoSquare, CryptoPayPalAPI → 9 classes for just 3 methods × 3 processors.
+
+
+from abc import ABC, abstractmethod
+
+class PaymentProcessor(ABC):
+    @abstractmethod
+    def process_payment(self, amount: float):
+        pass
+
+
+class StripeProcessor(PaymentProcessor):
+    def process_payment(self, amount: float):
+        print(f"Processing ${amount} via Stripe.")
+
+class SquareProcessor(PaymentProcessor):
+    def process_payment(self, amount: float):
+        print(f"Processing ${amount} via Square.")
+
+class PayPalAPIProcessor(PaymentProcessor):
+    def process_payment(self, amount: float):
+        print(f"Processing ${amount} via PayPal API.")
+
+
+class PaymentMethod(ABC):
+    def __init__(self, processor: PaymentProcessor):
+        self.processor = processor
+
+    @abstractmethod
+    def make_payment(self, amount: float):
+        pass
+
+
+class CreditCard(PaymentMethod):
+    def make_payment(self, amount: float):
+        print("Paying by Credit Card: ", end="")
+        self.processor.process_payment(amount)
+
+class PayPal(PaymentMethod):
+    def make_payment(self, amount: float):
+        print("Paying via PayPal: ", end="")
+        self.processor.process_payment(amount)
+
+class Crypto(PaymentMethod):
+    def make_payment(self, amount: float):
+        print("Paying with Crypto: ", end="")
+        self.processor.process_payment(amount)

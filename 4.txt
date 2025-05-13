@@ -1,0 +1,59 @@
+Question 1: Refactor a Class Violating SRP Problem Statement: You are given the following Report class that handles both report generation and report saving. Refactor the class to adhere to the Single Responsibility Principle.
+code: 
+Class for generating reports
+class ReportGenerator:
+    def __init__(self, data):
+        self.data = data
+
+    def generate_report(self):
+        print("Report generated.")
+
+# Class for saving reports
+class ReportSaver:
+    def __init__(self, report):
+        self.report = report
+
+    def save_report(self, filename):
+        print(f"Report saved to {filename}.")
+
+Question 2: Design a Class Hierarchy for Shapes
+
+You are tasked with designing a class hierarchy for shapes. The current implementation has a single Shape class that calculates both area and perimeter. Refactor the code to adhere to SRP.
+
+
+[ ]
+class Shape:
+    def __init__(self, length, width):
+        self.length = length
+        self.width = width
+
+class AreaCalculator:
+    def calculate_area(self, shape):
+        return shape.length * shape.width
+
+class PerimeterCalculator:
+    def calculate_perimeter(self, shape):
+        return 2 * (shape.length + shape.width)
+
+
+[ ]
+Question 3: Refactor a User Management System
+
+You are given a UserManager class that handles user authentication, user profile updates, and sending emails. Refactor the class to adhere to SRP.
+class User:
+    def __init__(self, username, email):
+        self.username = username
+        self.email = email
+
+class Authenticator:
+    def authenticate(self, user, password):
+        print(f"User {user.username} authenticated.")
+
+class ProfileManager:
+    def update_profile(self, user, new_username):
+        user.username = new_username
+        print(f"Profile updated. New username: {user.username}")
+
+class EmailSender:
+    def send_email(self, user, subject, message):
+        print(f"Email sent to {user.email} with subject: {subject}")

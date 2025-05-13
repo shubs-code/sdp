@@ -1,0 +1,126 @@
+Question 1: Refactor a Multi-Function Printer Interface
+Problem Statement:
+You are given an `IMultiFunctionPrinter` interface that includes
+methods for printing, scanning, and faxing. However, not all printers
+support all functionalities. Refactor the interface to adhere to the
+Interface Segregation Principle.
+
+from abc import ABC, abstractmethod
+
+class IPrinter(ABC):
+    @abstractmethod
+    def print(self, document):
+        pass
+
+class IScanner(ABC):
+    @abstractmethod
+    def scan(self, document):
+        pass
+
+class IFax(ABC):
+    @abstractmethod
+    def fax(self, document):
+        pass
+
+class Printer(IPrinter):
+    def print(self, document):
+        print(f"Printing: {document}")
+
+class Scanner(IPrinter, IScanner):
+    def print(self, document):
+        print(f"Printing: {document}")
+
+    def scan(self, document):
+        print(f"Scanning: {document}")
+
+class MultiFunctionPrinter(IPrinter, IScanner, IFax):
+    def print(self, document):
+        print(f"Printing: {document}")
+
+    def scan(self, document):
+        print(f"Scanning: {document}")
+
+    def fax(self, document):
+        print(f"Faxing: {document}")
+
+
+
+
+Question 2: Refactor a Vehicle Interface
+Problem Statement:
+You are given an `IVehicle` interface that includes methods for
+driving, flying, and sailing. However, not all vehicles support all
+functionalities. Refactor the interface to adhere to the Interface
+Segregation Principle.
+
+from abc import ABC, abstractmethod
+
+class IDriveable(ABC):
+    @abstractmethod
+    def drive(self):
+        pass
+
+class IFlyable(ABC):
+    @abstractmethod
+    def fly(self):
+        pass
+
+class ISailable(ABC):
+    @abstractmethod
+    def sail(self):
+        pass
+
+class Car(IDriveable):
+    def drive(self):
+        print("Driving on the road")
+
+class Airplane(IDriveable, IFlyable):
+    def drive(self):
+        print("Driving on the ground before takeoff")
+
+    def fly(self):
+        print("Flying in the sky")
+
+class Boat(ISailable):
+    def sail(self):
+        print("Sailing on the water")
+
+
+
+
+Question 3: Refactor a Payment Gateway Interface
+Problem Statement:
+You are given an `IPaymentGateway` interface that includes
+methods for processing credit card payments, PayPal payments, and
+cryptocurrency payments. However, not all payment gateways
+support all payment methods. Refactor the interface to adhere to the
+Interface Segregation Principle.
+
+from abc import ABC, abstractmethod
+
+class ICreditCardPayment(ABC):
+    @abstractmethod
+    def process_credit_card(self, amount):
+        pass
+
+class IPayPalPayment(ABC):
+    @abstractmethod
+    def process_paypal(self, amount):
+        pass
+
+class ICryptoPayment(ABC):
+    @abstractmethod
+    def process_crypto(self, amount):
+        pass
+
+class CreditCardGateway(ICreditCardPayment):
+    def process_credit_card(self, amount):
+        print(f"Processing credit card payment: ${amount}")
+
+class PayPalGateway(IPayPalPayment):
+    def process_paypal(self, amount):
+        print(f"Processing PayPal payment: ${amount}")
+
+class CryptoGateway(ICryptoPayment):
+    def process_crypto(self, amount):
+        print(f"Processing crypto payment: ${amount}")

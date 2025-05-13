@@ -1,0 +1,110 @@
+#Practical Lab 10: Prototype pattern
+Problem Statement:
+In a game, enemies have:
+Type (e.g., "Zombie", "Alien")
+Health (e.g., 100 HP)
+Attack Power (e.g., 20 damage)
+AI Behavior (e.g., "Aggressive", "Defensive")
+Spawning new enemies is expensive (due to AI initialization). Use the Prototype Pattern to
+
+Spawn new enemies by cloning prototypes, then tweaking properties (e.g., reduce HP for weaker variants).
+
+
+import copy
+
+class EnemyPrototype:
+    def clone(self):
+        return copy.deepcopy(self)
+
+class Enemy(EnemyPrototype):
+    def __init__(self, enemy_type, health, attack_power, ai_behavior):
+        self.enemy_type = enemy_type
+        self.health = health
+        self.attack_power = attack_power
+        self.ai_behavior = ai_behavior
+
+    def __str__(self):
+        return (f"Enemy Type: {self.enemy_type}, "
+                f"Health: {self.health}, "
+                f"Attack Power: {self.attack_power}, "
+                f"AI: {self.ai_behavior}")
+
+class EnemySpawner:
+    def __init__(self):
+        self._prototypes = {}
+
+    def register_enemy(self, name, enemy):
+        self._prototypes[name] = enemy
+
+    def spawn_enemy(self, name, **custom_attributes):
+        enemy = self._prototypes.get(name).clone()
+        for attr, value in custom_attributes.items():
+            setattr(enemy, attr, value)
+        return enemy
+
+if __name__ == "__main__":
+    spawner = EnemySpawner()
+
+    zombie_prototype = Enemy("Zombie", 100, 15, "Aggressive")
+    alien_prototype = Enemy("Alien", 120, 25, "Defensive")
+
+    spawner.register_enemy("zombie", zombie_prototype)
+    spawner.register_enemy("alien", alien_prototype)
+
+    fast_zombie = spawner.spawn_enemy("zombie", health=70, attack_power=20)
+    tank_alien = spawner.spawn_enemy("alien", health=200, ai_behavior="Tank")
+
+    print(fast_zombie)
+    print(tank_alien)
+
+
+%%writefile EnemySpawner.java
+
+public class EnemySpawner {
+
+    public static class Enemy implements Cloneable{
+        private int attack_power;
+        private String type;
+        private int health;
+        private String ai;
+
+        public Enemy(int attack_power, String type, int health, String ai) {
+            this.attack_power = attack_power;
+            this.type = type;
+            this.health = health;
+            this.ai = ai;
+        }
+
+
+        @Override
+        public String toString() {
+            return "Enemy{" + "attack_power=" + attack_power + ", type='" + type + '\'' + ", health=" + health + ", ai='" + ai + '\'' +'}';
+        }
+
+        public void setHealth(int health) {
+            this.health = health;
+        }
+
+        @Override
+        public Enemy clone() throws CloneNotSupportedException {
+            return (Enemy) super.clone();
+        }
+    }
+
+    public static void main(String args[]){
+      Enemy alien=new Enemy(80, "alien", 100, "Offensive");
+      Enemy zombie;
+      try{
+        zombie=alien.clone();
+        zombie.setHealth(50);
+        System.out.println(alien);
+        System.out.println(zombie);
+      }
+      catch(CloneNotSupportedException e){
+        e.printStackTrace();
+      }
+
+
+    }
+
+}

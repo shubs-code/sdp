@@ -1,0 +1,105 @@
+Question 1: Extending a Shape Area Calculator
+Problem Statement:
+You are given a Shape class hierarchy that calculates the area of
+shapes. Currently, it supports only Rectangle and Circle. Extend
+the design to support a new shape, Triangle, without modifying the
+existing code.
+
+from math import pi
+
+class Shape:
+    def area(self):
+        pass
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+
+    def area(self):
+        return pi * self.radius**2
+
+class Triangle(Shape):
+    def __init__(self, base, height):
+        self.base = base
+        self.height = height
+
+    def area(self):
+        return 0.5 * self.base * self.height
+
+
+
+
+Question 2: Extending a Discount Calculator
+Problem Statement:
+You are given a DiscountCalculator class that calculates discounts
+for different types of customers. Currently, it supports only
+RegularCustomer and PremiumCustomer. Extend the design to
+support a new customer type, GoldCustomer, without modifying
+the existing code.
+
+class DiscountCalculator:
+    def calculate_discount(self, customer):
+        if customer.type == "Regular":
+            return customer.total * 0.1
+        elif customer.type == "Premium":
+            return customer.total * 0.2
+        elif customer.type == "Gold":
+            return customer.total * 0.3
+        else:
+            raise ValueError("Invalid customer type")
+
+class Customer:
+    def __init__(self, type, total):
+        self.type = type
+        self.total = total
+
+class GoldCustomer(Customer):
+    def __init__(self, total):
+        super().__init__("Gold", total)
+
+
+
+
+Question 3: Extending a Notification System
+Problem Statement:
+You are given a Notification class hierarchy that sends
+notifications via email and SMS. Extend the design to support a new
+notification type, PushNotification, without modifying the existing
+code.
+
+class Notification:
+    def send(self):
+        pass
+
+class EmailNotification(Notification):
+    def __init__(self, recipient, message):
+        self.recipient = recipient
+        self.message = message
+
+    def send(self):
+        print(f"Email sent to {self.recipient}: {self.message}")
+
+class SMSNotification(Notification):
+    def __init__(self, phone_number, message):
+        self.phone_number = phone_number
+        self.message = message
+
+    def send(self):
+        print(f"SMS sent to {self.phone_number}: {self.message}")
+
+class PushNotification(Notification):
+    def __init__(self, device_id, message):
+        self.device_id = device_id
+        self.message = message
+
+    def send(self):
+        print(f"Push notification sent to device {self.device_id}: {self.message}")
+
